@@ -1,23 +1,22 @@
 {
-  "name": "docker-logentries",
-  "version": "0.2.0",
-  "description": "Forward all logs from all running docker containers to LogEntries",
+  "name": "docker-librato",
+  "version": "1.0.0",
+  "description": "Forward all stats from all running docker containers to Librato",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nearform/docker-logentries.git"
+    "url": "https://github.com/meteorhacks/docker-librato.git"
   },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Matteo Collina <matteo.collina@nearform.com>",
+  "author": "Meteorhacks",
   "license": "MIT",
   "dependencies": {
     "docker-allcontainers": "^0.2.0",
-    "docker-loghose": "^0.4.0",
     "docker-stats": "^0.2.0",
-    "end-of-stream": "^1.1.0",
-    "minimist": "^1.1.0",
+    "envalid": "^0.1.0",
+    "librato-node": "^2.1.1",
     "through2": "^0.6.3"
   }
 }

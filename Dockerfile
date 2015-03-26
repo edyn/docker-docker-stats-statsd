@@ -1,9 +1,10 @@
-# docker-logentries
-#
-# VERSION 0.1.0
+FROM node:0.12.0
+MAINTAINER Meteorhacks
 
-FROM node:0.10-onbuild
-MAINTAINER Matteo Collina <hello@matteocollina.com>
+COPY ./package.json /app/package.json
+RUN cd /app && npm install
+COPY . /app
 
-ENTRYPOINT ["/usr/src/app/index.js"]
-CMD []
+EXPOSE 11011
+
+CMD ["node", "/app/index.js"]

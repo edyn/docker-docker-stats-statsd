@@ -1,0 +1,15 @@
+#!/bin/bash
+
+`boot2docker shellinit`
+DOCKER_IP=`boot2docker ip`
+
+docker rm -f docker-librato 2>/dev/null
+docker build -t _dev/docker-librato .
+
+docker run -d --name docker-librato \
+  -e LIBRATO_EMAIL="" \
+  -e LIBRATO_TOKEN="" \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  _dev/docker-librato
+
+docker logs -f docker-librato

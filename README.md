@@ -1,72 +1,39 @@
-# docker-logentries
+# docker-librato
 
-Forward all your logs to [LogEntries](logentries.com), like a breeze.
-
-![logentries dashboard](https://raw.githubusercontent.com/nearform/docker-logentries/master/dashboard.png)
-
-See the Logentries community pack at [http://revelops.com/community/packs/docker/](http://revelops.com/community/packs/docker/).
+Forward all your stats to [Librato Metrics](metrics.librato.com), like a breeze.
 
 ## Usage as a Container
 
-The simplest way to forward all your container's log to LogEntries is to
+The simplest way to forward all your container's log to Librato Metrics is to
 run this repository as a container, with:
 
 ```sh
-docker run -v /var/run/docker.sock:/var/run/docker.sock logentries/docker-logentries -t <TOKEN> -j -a host=`uname -n`
+docker run \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -e LIBRATO_EMAIL="" \
+  -e LIBRATO_TOKEN="" \
+  meteorhacks/docker-librato
 ```
 
 You can also use two different tokens for logging and stats:
 ```sh
-docker run -v /var/run/docker.sock:/var/run/docker.sock logentries/docker-logentries -l <LOGSTOKEN> -k <STATSTOKEN> -j -a host=`uname -n`
+docker run \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -e LIBRATO_EMAIL="" \
+  -e LIBRATO_TOKEN="" \
+  meteorhacks/docker-librato
 ```
 
-You can also pass the `--no-stats` flag if you do not want stats to be
-published to logentries every second. You __need this flag for Docker
-version < 1.5__.
-
 ### Running container in a restricted environment.
-Some environments(such as Google Compute Engine) does not allow to access the docker socket without special privileges. You will get EACCES(`Error: read EACCES`) error if you try to run the container.
-To run the container in such environments add --privileged to the `docker run` command. 
+Some environments(such as Google Compute Engine) does not allow to access the docker socket without special privileges. You will get EACCES(`Error: read EACCES`) error if you try to run the container. To run the container in such environments add --privileged to the `docker run` command.
 
 Example:
 ```sh
-docker run --privileged -v /var/run/docker.sock:/var/run/docker.sock logentries/docker-logentries -t <TOKEN> -j -a host=`uname -n`
-```
-
-## Usage as a CLI
-
-1. `npm install docker-logentries -g`
-2. `docker-logentries -t TOKEN -a host=\`uname -n\``
-3. ..there is no step 3
-
-You can also pass the `-j` switch if you log in JSON format, like
-[bunyan](http://npm.im/bunyan).
-You can also pass the `--no-stats` flag if you do not want stats to be
-published to logentries every second.
-The `-a/--add` flag allows to add fixed values to the data being
-published. This follows the format 'name=value'.
-
-## Embedded usage
-
-Install it with: `npm install docker-logentries --save`
-
-Then, in your JS file:
-
-```
-var logentries = require('docker-logentries')({
-  json: false, // or true to parse lines as JSON
-  secure: false, // or true to connect securely
-  token: process.env.TOKEN, // logentries TOKEN
-  stats: true, // disable stats if false
-  add: null, // an object whose properties will be added
-})
-
-// logentries is the source stream with all the
-// log lines
-
-setTimeout(function() {
-  logentries.destroy()
-}, 5000)
+docker run --privileged \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -e LIBRATO_EMAIL="" \
+  -e LIBRATO_TOKEN="" \
+  meteorhacks/docker-librato
 ```
 
 ## Building a docker repo from this repository
@@ -74,8 +41,10 @@ setTimeout(function() {
 First clone this repository, then:
 
 ```bash
-docker build -t logentries .
-docker run -v /var/run/docker.sock:/var/run/docker.sock logentries -t <TOKEN> -j -a host=`uname -n`
+docker build -t librato .
+docker run \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  librato
 ```
 
 ## How it works
@@ -97,6 +66,10 @@ and the stats as a never ending stream of data.
 
 All the originating requests are wrapped in a
 [never-ending-stream](https://github.com/mcollina/never-ending-stream).
+
+## Credits
+
+This app is based on [nearform/docker-logentries](https://github.com/nearform/docker-logentries).
 
 ## License
 
