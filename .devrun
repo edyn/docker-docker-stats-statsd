@@ -7,8 +7,7 @@ docker rm -f docker-librato 2>/dev/null
 docker build -t _dev/docker-librato .
 
 docker run -d --name docker-librato \
-  -e LIBRATO_EMAIL="" \
-  -e LIBRATO_TOKEN="" \
+  -e STATSD_HOST="127.0.0.1" \
   -v /var/run/docker.sock:/var/run/docker.sock \
   _dev/docker-librato
 

@@ -1,22 +1,23 @@
 {
-  "name": "docker-librato",
+  "name": "docker-stats-statsd",
   "version": "1.0.0",
-  "description": "Forward all stats from all running docker containers to Librato",
+  "description": "Forward all stats from all running docker containers to a statsd server",
   "repository": {
     "type": "git",
-    "url": "https://github.com/meteorhacks/docker-librato.git"
+    "url": "https://github.com/edyn/docker-stats-statsd.git"
   },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Meteorhacks",
+  "author": "Mamadou Bobo Diallo",
   "license": "MIT",
   "dependencies": {
     "docker-allcontainers": "^0.2.0",
     "docker-stats": "^0.2.0",
+    "lodash": "^3.9.3",
     "envalid": "^0.1.0",
-    "librato-node": "^2.1.1",
+    "node-statsd": "^0.1.1 ",
     "through2": "^0.6.3"
   }
 }
