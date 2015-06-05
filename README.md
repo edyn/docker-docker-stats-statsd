@@ -1,27 +1,20 @@
-# docker-librato
+# docker-stats-statsd
 
-Forward all your stats to [Librato Metrics](metrics.librato.com), like a breeze.
+Forward all your stats to Etsy's [Statsd](https://github.com/etsy/statsd), like a breeze.
 
 ## Usage as a Container
 
-The simplest way to forward all your container's log to Librato Metrics is to
-run this repository as a container, with:
+The simplest way to forward all your container's log to Statsd. Given the versatility of statsd, you can configure the metrics to go to any supported backends; including Librato, Graphite. All you have to do is run this repository as a container, with:
 
 ```sh
 docker run \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -e LIBRATO_EMAIL="" \
-  -e LIBRATO_TOKEN="" \
-  meteorhacks/docker-librato
+  -e STATSD_HOST="" \
+  -e STATSD_PORT="" \
+  -e STATSD_PREFIX="" \
+  edyn/docker-stats-statsd
 ```
-
-You can also use two different tokens for logging and stats:
-```sh
-docker run \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  -e LIBRATO_EMAIL="" \
-  -e LIBRATO_TOKEN="" \
-  meteorhacks/docker-librato
+Note that all three options default to reasonable values (STATSD_HOST, STATSD_PORT, STATSD_PREFIX) => (127.0.0.1, 8125, "docker.")
 ```
 
 ### Running container in a restricted environment.
@@ -31,9 +24,10 @@ Example:
 ```sh
 docker run --privileged \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -e LIBRATO_EMAIL="" \
-  -e LIBRATO_TOKEN="" \
-  meteorhacks/docker-librato
+  -e STATSD_HOST="" \
+  -e STATSD_PORT="" \
+  -e STATSD_PREFIX="" \
+  edyn/docker-stats-statsd
 ```
 
 ## Building a docker repo from this repository
@@ -41,10 +35,10 @@ docker run --privileged \
 First clone this repository, then:
 
 ```bash
-docker build -t librato .
+docker build -t docker-stats .
 docker run \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  librato
+  docker-stats
 ```
 
 ## How it works
@@ -69,7 +63,7 @@ All the originating requests are wrapped in a
 
 ## Credits
 
-This app is based on [nearform/docker-logentries](https://github.com/nearform/docker-logentries).
+This app is based on [Meteorhacks](https://github.com/meteorhacks/docker-librato).
 
 ## License
 
