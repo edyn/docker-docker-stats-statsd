@@ -36,7 +36,7 @@ function update(chunk, enc, callback) {
   var name = chunk.name;
   var info = {
     cpu: {
-      cpu_percent: chunk.stats.cpu_stats.cpu_usage.percent,
+      cpu_percent: chunk.stats.cpu_stats.cpu_usage.cpu_percent,
     },
     memory: {
       usage: chunk.stats.memory_stats.usage,
